@@ -98,9 +98,9 @@ public class SshCommand(
     }
 
     fun isReachable(): Boolean {
-        var returnValue: Boolean
+        var returnValue = false
         try {
-            Socket(ipAddress, port).use { returnValue = true }
+            Socket(host, port).use { returnValue = true }
         } catch (_: IOException) {
             returnValue = false
         }
