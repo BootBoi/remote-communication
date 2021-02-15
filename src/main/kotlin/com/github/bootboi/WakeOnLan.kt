@@ -20,7 +20,7 @@ public class WakeOnLan @Throws(WakeOnLanException::class) constructor(macAddress
         if (macAddress.length != 17) {
             return false;
         }
-        val separators = intArrayOf(2, 5, 8, 11, 13)
+        val separators = intArrayOf(2, 5, 8, 11, 14)
         for (i in separators) {
             if (macAddress[i] != ':') {
                 return false
@@ -45,9 +45,9 @@ public class WakeOnLan @Throws(WakeOnLanException::class) constructor(macAddress
     }
 
     private fun parseHexString(macAddress: String): ByteArray {
-        val exception = WakeOnLanException("The MAC Address needs to be in format AA:BB:CC:DD:FF:00")
+        val message = "The MAC Address needs to be in format AA:BB:CC:DD:FF:00"
         if (!isMacAddressValid(macAddress)) {
-            throw exception
+            throw WakeOnLanException(message)
         }
         val string = macAddress.replace(":", "")
         val length: Int = string.length / 2
@@ -57,7 +57,7 @@ public class WakeOnLan @Throws(WakeOnLanException::class) constructor(macAddress
             try {
                 bytes[j] = string.substring(i, i + 2).toInt(16).toByte()
             } catch (_: NumberFormatException) {
-                throw exception
+                throw WakeOnLanException(message)
             }
         }
         return bytes
