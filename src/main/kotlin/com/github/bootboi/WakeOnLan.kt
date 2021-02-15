@@ -1,3 +1,5 @@
+package com.github.bootboi
+
 import java.io.ByteArrayOutputStream
 import java.net.DatagramPacket
 import java.net.DatagramSocket
