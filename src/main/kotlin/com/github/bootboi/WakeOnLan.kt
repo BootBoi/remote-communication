@@ -5,7 +5,8 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 
-public class WakeOnLan(macAddress: String, private val port: Int = 9) {
+public class WakeOnLan(macAddress: String) {
+    private val port: Int = 9
     private val bytes: ByteArray = getMagicBytes(macAddress)
     private val address: InetAddress = getMulticastAddress()
 
@@ -13,6 +14,19 @@ public class WakeOnLan(macAddress: String, private val port: Int = 9) {
         val packet = DatagramPacket(bytes, bytes.size, address, port)
         val socket = DatagramSocket()
         socket.send(packet)
+    }
+
+    private fun isMacAddressValid(macAddress: String): Boolean {
+        if (macAddress.length != 17) {
+            return false;
+        }
+        val separators = intArrayOf(2, 5, 8, 11, 13)
+        for (i in separators) {
+            if (macAddress[i] != ':') {
+                return false
+            }
+        }
+        return true
     }
 
     private fun getMagicBytes(macAddress: String): ByteArray {
@@ -30,12 +44,21 @@ public class WakeOnLan(macAddress: String, private val port: Int = 9) {
         return bytes.toByteArray()
     }
 
-    private fun parseHexString(string: String): ByteArray {
+    private fun parseHexString(macAddress: String): ByteArray {
+        val exception = WakeOnLanException("The MAC Address needs to be in format AA:BB:CC:DD:FF:00")
+        if (!isMacAddressValid(macAddress)) {
+            throw exception
+        }
+        val string = macAddress.replace(":", "")
         val length: Int = string.length / 2
         val bytes = ByteArray(length)
         for (j in 0..length-1) {
             val i = j * 2
-            bytes[j] = string.substring(i, i + 2).toInt(16).toByte()
+            try {
+                bytes[j] = string.substring(i, i + 2).toInt(16).toByte()
+            } catch (_: NumberFormatException) {
+                throw exception
+            }
         }
         return bytes
     }
