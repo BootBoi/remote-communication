@@ -3,7 +3,7 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 
-class WakeOnLan(macAddress: String, private val port: Int = 9) {
+public class WakeOnLan(macAddress: String, private val port: Int = 9) {
     private val bytes: ByteArray = getMagicBytes(macAddress)
     private val address: InetAddress = getMulticastAddress()
 

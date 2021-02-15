@@ -3,5 +3,5 @@ fun main(args: Array<String>) {
     //wol.wakeUp()
     //println("Sent WOL magic packet")
     val command = SshCommand(ipAddress, sshPort, sshUser, sshPassword)
-    println("executed command " + command.whoami())
+    println("executed command " + command.powerOff())
 }
