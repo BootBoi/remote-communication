@@ -5,7 +5,7 @@ import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 
-public class WakeOnLan(macAddress: String) {
+public class WakeOnLan @Throws(WakeOnLanException::class) constructor(macAddress: String) {
     private val port: Int = 9
     private val bytes: ByteArray = getMagicBytes(macAddress)
     private val address: InetAddress = getMulticastAddress()
