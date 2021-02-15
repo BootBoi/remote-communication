@@ -1,3 +1,3 @@
-class SshCommandException(s: String) : Exception(s) {
+public class SshCommandException(s: String) : Exception(s) {
 
 }
