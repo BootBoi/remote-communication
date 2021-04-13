@@ -10,7 +10,8 @@ public class SshCommand(
     private val host: String,
     private val port: Int,
     private val user: String,
-    private val password: String
+    private val password: String,
+    private val connectionTimeout: Int = 0
 ) {
     // Source: https://codeflex.co/java-run-sudo-command-on-remote-linux-host/
     @Throws(SshCommandException::class)
@@ -32,7 +33,7 @@ public class SshCommand(
             //channel.setErrStream(System.err)
             val output = channel.outputStream
             channel.setPty(true)
-            channel.connect()
+            channel.connect(connectionTimeout)
             output.write(inputForSudoPrompt.toByteArray())
             output.flush()
 
