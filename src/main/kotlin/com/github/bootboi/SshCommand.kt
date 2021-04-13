@@ -26,7 +26,7 @@ public class SshCommand(
             session = JSch().getSession(user, host, port)
             session.setPassword(password)
             session.setConfig("StrictHostKeyChecking", "no")
-            session.connect()
+            session.connect(connectionTimeout)
             channel = session.openChannel("exec") as ChannelExec
 
             channel.setCommand(sudoCommand)
